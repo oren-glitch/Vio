@@ -106,8 +106,7 @@
     }
     .nav-logo img {
       height: 34px; width: auto;
-      /* invert so logo reads on dark background */
-      filter: brightness(0) invert(1);
+      filter: invert(1) hue-rotate(180deg);
     }
     .nav-links {
       display: flex; align-items: center; gap: 36px; list-style: none;
@@ -212,99 +211,7 @@
       padding-top: 82.7%; /* 430/520 aspect ratio */
     }
     .hero-canvas-inner { position: absolute; inset: 0; }
-    .hero-canvas svg   { width: 100%; height: 100%; display: block; overflow: visible; }
-
-    /* Node hover */
-    .node-g { cursor: default; transition: transform .28s ease; transform-box: fill-box; transform-origin: center; }
-    .node-g:hover { transform: scale(1.14); }
-
-    /* Dashed flow */
-    @keyframes dashFlow {
-      from { stroke-dashoffset: 120; }
-      to   { stroke-dashoffset: 0; }
-    }
-    .dash-flow { stroke-dasharray: 6 5; animation: dashFlow 2s linear infinite; }
-    .dash-flow.d2 { animation-delay: .35s; }
-    .dash-flow.d3 { animation-delay: .7s; }
-    .dash-flow.d4 { animation-delay: 1.05s; }
-    .dash-flow.d5 { animation-delay: .55s; }
-    .dash-flow.d6 { animation-delay: .9s; }
-
-    /* Glassmorphism stat badges */
-    .hero-badge {
-      position: absolute;
-      background: rgba(5,5,18,.75);
-      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255,255,255,.1);
-      border-left: 2.5px solid #00E5BE;
-      border-radius: 10px; padding: 10px 14px; min-width: 76px;
-      box-shadow: 0 8px 32px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
-    }
-    .badge-left  { left: 2%;  top: 27%; }
-    .badge-right { right: 2%; top: 30%; }
-    .badge-num {
-      font-size: clamp(18px, 3.5vw, 24px); font-weight: 800;
-      color: #0066FF; line-height: 1; margin-bottom: 4px; font-family: var(--font);
-    }
-    .badge-lbl {
-      font-size: 10px; color: rgba(255,255,255,.4); font-weight: 500;
-      white-space: nowrap; letter-spacing: .3px; font-family: var(--font);
-    }
-
-    /* Bottom output card (glassmorphism) */
-    .hero-output-card {
-      position: absolute; bottom: 3%; left: 50%; transform: translateX(-50%);
-      width: 54%;
-      background: rgba(5,5,18,.75);
-      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(0,102,255,.28);
-      border-top: 2px solid rgba(0,102,255,.55);
-      border-radius: 10px; padding: 10px 16px;
-      display: flex; align-items: center; gap: 10px;
-      box-shadow: 0 8px 32px rgba(0,0,0,.45), inset 0 1px 0 rgba(0,102,255,.1);
-      animation: slideUpFade .7s .65s ease both;
-    }
-    @keyframes slideUpFade {
-      from { opacity: 0; transform: translateX(-50%) translateY(14px); }
-      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-    }
-    .output-live-dot {
-      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
-      background: #00E5BE; box-shadow: 0 0 7px #00E5BE;
-      animation: liveBlink 1.6s ease-in-out infinite;
-    }
-    @keyframes liveBlink {
-      0%,100% { opacity: 1; transform: scale(1); }
-      50%      { opacity: .35; transform: scale(.7); }
-    }
-    .output-text-wrap  { line-height: 1.35; }
-    .output-title-txt  { font-size: 10px; color: rgba(255,255,255,.42); font-weight: 500; margin-bottom: 2px; font-family: var(--font); }
-    .output-metric-txt { font-size: clamp(11px, 2vw, 13px); color: #00E5BE; font-weight: 700; font-family: var(--font); }
-
-    /* ============================================================
-       STATS BAR (rendered inside hero, dark-bg themed)
-    ============================================================ */
-    .hero-stats {
-      width: 100%; border-top: 1px solid rgba(255,255,255,.07);
-      padding: 28px 24px; position: relative; z-index: 1;
-    }
-    .stats-row {
-      max-width: var(--max-w); margin: 0 auto;
-      display: flex; justify-content: center; align-items: stretch;
-    }
-    .stat-item {
-      flex: 1; text-align: center; padding: 8px 48px;
-      position: relative;
-    }
-    .stat-item + .stat-item::before {
-      content: ''; position: absolute; left: 0; top: 10%; bottom: 10%;
-      width: 1px; background: rgba(255,255,255,.1);
-    }
-    .stat-num {
-      font-size: clamp(44px, 5vw, 58px); font-weight: 800;
-      color: var(--accent); line-height: 1; margin-bottom: 8px;
-    }
-    .stat-lbl { font-size: 15px; color: rgba(255,255,255,.5); font-weight: 500; }
+    #hero-canvas { width: 100%; height: 100%; display: block; }
 
     /* ============================================================
        PLATFORM SECTION
@@ -437,7 +344,7 @@
     }
     .footer-brand img {
       height: 30px; width: auto;
-      filter: brightness(0) invert(1); margin-bottom: 14px; display: block;
+      filter: invert(1) hue-rotate(180deg); margin-bottom: 14px; display: block;
     }
     .footer-tagline { font-size: 13.5px; color: rgba(255,255,255,.35); line-height: 1.6; }
     .footer-col h4 {
@@ -620,10 +527,6 @@
       .hero-ctas { justify-content: center; }
       .hero-visual { display: none; }  /* hide on mobile — clean hero */
 
-      .stats-row { flex-direction: column; align-items: center; gap: 40px; }
-      .stat-item + .stat-item::before { display: none; }
-      .stat-item { padding: 0; }
-
       .platform-wrap { grid-template-columns: 1fr; gap: 48px; }
 
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
@@ -704,202 +607,16 @@
       <p class="hero-reassure">No credit card required</p>
     </div>
 
-    <!-- Right: premium animated visual -->
+    <!-- Right: AI canvas animation -->
     <div class="hero-visual">
       <div class="hero-canvas">
         <div class="hero-canvas-inner">
-
-          <!-- SVG Data Network -->
-          <svg viewBox="0 0 520 430" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style="display:block;overflow:visible">
-            <defs>
-              <!-- Soft radial background glow -->
-              <radialGradient id="bgGlow" cx="50%" cy="48%" r="52%">
-                <stop offset="0%"   stop-color="#0033BB" stop-opacity=".22"/>
-                <stop offset="50%"  stop-color="#0033BB" stop-opacity=".06"/>
-                <stop offset="100%" stop-color="#0033BB" stop-opacity="0"/>
-              </radialGradient>
-              <!-- Particle glow filter -->
-              <filter id="pGlow" x="-400%" y="-400%" width="900%" height="900%">
-                <feGaussianBlur stdDeviation="2.5" result="blur"/>
-                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-              <!-- Path definitions for animateMotion particles -->
-              <path id="pDB"  d="M118,98  L260,208"/>
-              <path id="pAPI" d="M400,78  L260,208"/>
-              <path id="pCRM" d="M66,248  L260,208"/>
-              <path id="pCSV" d="M452,254 L260,208"/>
-              <path id="pN5"  d="M195,336 L260,208"/>
-              <path id="pN6"  d="M324,342 L260,208"/>
-            </defs>
-
-            <!-- Radial background glow -->
-            <ellipse cx="260" cy="208" rx="220" ry="180" fill="url(#bgGlow)"/>
-
-            <!-- Connection lines (dashed, animated) -->
-            <path d="M118,98 L260,208"  fill="none" stroke="rgba(0,102,255,.22)"  stroke-width="1.5" class="dash-flow"/>
-            <path d="M400,78 L260,208"  fill="none" stroke="rgba(0,102,255,.22)"  stroke-width="1.5" class="dash-flow d2"/>
-            <path d="M66,248 L260,208"  fill="none" stroke="rgba(0,229,190,.18)"  stroke-width="1.5" class="dash-flow d3"/>
-            <path d="M452,254 L260,208" fill="none" stroke="rgba(0,229,190,.18)"  stroke-width="1.5" class="dash-flow d4"/>
-            <path d="M195,336 L260,208" fill="none" stroke="rgba(0,102,255,.16)"  stroke-width="1.5" class="dash-flow d5"/>
-            <path d="M324,342 L260,208" fill="none" stroke="rgba(0,102,255,.16)"  stroke-width="1.5" class="dash-flow d6"/>
-
-            <!-- Vertical drop line center → output card -->
-            <line x1="260" y1="254" x2="260" y2="364" stroke="rgba(0,102,255,.38)" stroke-width="1.5" stroke-dasharray="5 3"/>
-
-            <!-- ── Data particles traveling along paths ── -->
-            <!-- DB -->
-            <circle r="3"   fill="#5599FF" filter="url(#pGlow)">
-              <animateMotion dur="2.2s" repeatCount="indefinite" begin="0s"><mpath href="#pDB"/></animateMotion>
-            </circle>
-            <circle r="1.8" fill="#5599FF" opacity=".5">
-              <animateMotion dur="2.2s" repeatCount="indefinite" begin="1.1s"><mpath href="#pDB"/></animateMotion>
-            </circle>
-            <!-- API -->
-            <circle r="3"   fill="#00E5BE" filter="url(#pGlow)" opacity=".9">
-              <animateMotion dur="2.3s" repeatCount="indefinite" begin="0.4s"><mpath href="#pAPI"/></animateMotion>
-            </circle>
-            <circle r="1.8" fill="#00E5BE" opacity=".5">
-              <animateMotion dur="2.3s" repeatCount="indefinite" begin="1.55s"><mpath href="#pAPI"/></animateMotion>
-            </circle>
-            <!-- CRM -->
-            <circle r="3"   fill="#5599FF" filter="url(#pGlow)">
-              <animateMotion dur="2.4s" repeatCount="indefinite" begin="0.75s"><mpath href="#pCRM"/></animateMotion>
-            </circle>
-            <circle r="1.8" fill="#5599FF" opacity=".5">
-              <animateMotion dur="2.4s" repeatCount="indefinite" begin="1.95s"><mpath href="#pCRM"/></animateMotion>
-            </circle>
-            <!-- CSV -->
-            <circle r="3"   fill="#00E5BE" filter="url(#pGlow)" opacity=".9">
-              <animateMotion dur="2.3s" repeatCount="indefinite" begin="1.05s"><mpath href="#pCSV"/></animateMotion>
-            </circle>
-            <circle r="1.8" fill="#00E5BE" opacity=".5">
-              <animateMotion dur="2.3s" repeatCount="indefinite" begin="2.2s"><mpath href="#pCSV"/></animateMotion>
-            </circle>
-            <!-- N5 -->
-            <circle r="2.5" fill="#5599FF" filter="url(#pGlow)" opacity=".85">
-              <animateMotion dur="1.7s" repeatCount="indefinite" begin="0.3s"><mpath href="#pN5"/></animateMotion>
-            </circle>
-            <!-- N6 -->
-            <circle r="2.5" fill="#00E5BE" filter="url(#pGlow)" opacity=".85">
-              <animateMotion dur="1.8s" repeatCount="indefinite" begin="0.9s"><mpath href="#pN6"/></animateMotion>
-            </circle>
-
-            <!-- ── Source nodes (teal glow border + hover scale via CSS) ── -->
-            <!-- DB -->
-            <g class="node-g">
-              <circle cx="118" cy="98"  r="27" fill="none" stroke="#00E5BE" stroke-width="5" opacity=".2" style="filter:blur(7px)"/>
-              <circle cx="118" cy="98"  r="22" fill="rgba(4,5,24,.9)"  stroke="#00E5BE" stroke-width="1.5"/>
-              <circle cx="118" cy="98"  r="9"  fill="#0066FF"/>
-              <text x="118" y="102" text-anchor="middle" font-size="8.5" fill="white" font-weight="700" font-family="Inter,sans-serif">DB</text>
-            </g>
-            <!-- API -->
-            <g class="node-g">
-              <circle cx="400" cy="78"  r="27" fill="none" stroke="#00E5BE" stroke-width="5" opacity=".2" style="filter:blur(7px)"/>
-              <circle cx="400" cy="78"  r="22" fill="rgba(4,5,24,.9)"  stroke="#00E5BE" stroke-width="1.5"/>
-              <circle cx="400" cy="78"  r="9"  fill="#00E5BE"/>
-              <text x="400" y="82"  text-anchor="middle" font-size="8"   fill="white" font-weight="700" font-family="Inter,sans-serif">API</text>
-            </g>
-            <!-- CRM -->
-            <g class="node-g">
-              <circle cx="66"  cy="248" r="27" fill="none" stroke="#00E5BE" stroke-width="5" opacity=".2" style="filter:blur(7px)"/>
-              <circle cx="66"  cy="248" r="22" fill="rgba(4,5,24,.9)"  stroke="#00E5BE" stroke-width="1.5"/>
-              <circle cx="66"  cy="248" r="9"  fill="#0066FF"/>
-              <text x="66"  y="252" text-anchor="middle" font-size="7.5" fill="white" font-weight="700" font-family="Inter,sans-serif">CRM</text>
-            </g>
-            <!-- CSV -->
-            <g class="node-g">
-              <circle cx="452" cy="254" r="27" fill="none" stroke="#00E5BE" stroke-width="5" opacity=".2" style="filter:blur(7px)"/>
-              <circle cx="452" cy="254" r="22" fill="rgba(4,5,24,.9)"  stroke="#00E5BE" stroke-width="1.5"/>
-              <circle cx="452" cy="254" r="9"  fill="#00E5BE"/>
-              <text x="452" y="258" text-anchor="middle" font-size="7.5" fill="white" font-weight="700" font-family="Inter,sans-serif">CSV</text>
-            </g>
-            <!-- Small node 5 -->
-            <g class="node-g">
-              <circle cx="195" cy="336" r="20" fill="none" stroke="#00E5BE" stroke-width="4" opacity=".18" style="filter:blur(6px)"/>
-              <circle cx="195" cy="336" r="16" fill="rgba(4,5,24,.9)"  stroke="#00E5BE" stroke-width="1.5"/>
-              <circle cx="195" cy="336" r="6"  fill="#0066FF"/>
-            </g>
-            <!-- Small node 6 -->
-            <g class="node-g">
-              <circle cx="324" cy="342" r="20" fill="none" stroke="#00E5BE" stroke-width="4" opacity=".18" style="filter:blur(6px)"/>
-              <circle cx="324" cy="342" r="16" fill="rgba(4,5,24,.9)"  stroke="#00E5BE" stroke-width="1.5"/>
-              <circle cx="324" cy="342" r="6"  fill="#00E5BE"/>
-            </g>
-
-            <!-- ── Central VIO hub ── -->
-            <!-- Outer pulsing rings -->
-            <circle cx="260" cy="208" r="74" fill="none" stroke="rgba(0,102,255,.14)" stroke-width="2">
-              <animate attributeName="r"              values="74;90;74"   dur="3.4s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1"/>
-              <animate attributeName="stroke-opacity" values=".14;.03;.14" dur="3.4s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="260" cy="208" r="63" fill="none" stroke="rgba(0,102,255,.18)" stroke-width="1.5">
-              <animate attributeName="r"              values="63;76;63"   dur="3.4s" begin=".7s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1"/>
-              <animate attributeName="stroke-opacity" values=".18;.05;.18" dur="3.4s" begin=".7s" repeatCount="indefinite"/>
-            </circle>
-            <!-- Outer rotating dashed ring -->
-            <circle cx="260" cy="208" r="57" fill="none" stroke="rgba(0,102,255,.5)" stroke-width="1.5" stroke-dasharray="18 8">
-              <animateTransform attributeName="transform" type="rotate" from="0 260 208" to="360 260 208" dur="13s" repeatCount="indefinite"/>
-            </circle>
-            <!-- Inner counter-rotating ring -->
-            <circle cx="260" cy="208" r="49" fill="none" stroke="rgba(0,229,190,.25)" stroke-width="1" stroke-dasharray="9 11">
-              <animateTransform attributeName="transform" type="rotate" from="0 260 208" to="-360 260 208" dur="21s" repeatCount="indefinite"/>
-            </circle>
-            <!-- Solid inner ring -->
-            <circle cx="260" cy="208" r="41" fill="rgba(0,90,230,.09)" stroke="rgba(0,102,255,.22)" stroke-width="1.5"/>
-            <!-- Core glow layers (blurred circles) -->
-            <circle cx="260" cy="208" r="48" fill="#0066FF" opacity=".07" style="filter:blur(20px)"/>
-            <circle cx="260" cy="208" r="34" fill="#0066FF" opacity=".13" style="filter:blur(13px)"/>
-            <circle cx="260" cy="208" r="22" fill="#0066FF" opacity=".2"  style="filter:blur(7px)"/>
-            <!-- Core solid -->
-            <circle cx="260" cy="208" r="28" fill="#0d65f5"/>
-            <!-- Subtle inner highlight -->
-            <circle cx="251" cy="199" r="11" fill="rgba(255,255,255,.07)"/>
-            <!-- Labels -->
-            <text x="260" y="204" text-anchor="middle" font-size="11"  fill="white" font-family="Inter,sans-serif" font-weight="800">VIO</text>
-            <text x="260" y="219" text-anchor="middle" font-size="7.5" fill="rgba(255,255,255,.65)" font-family="Inter,sans-serif" letter-spacing="1.5">AI ENGINE</text>
-          </svg>
-
-          <!-- Glassmorphism stat badges -->
-          <div class="hero-badge badge-left">
-            <div class="badge-num">3x</div>
-            <div class="badge-lbl">Faster Sales</div>
-          </div>
-          <div class="hero-badge badge-right">
-            <div class="badge-num">60%</div>
-            <div class="badge-lbl">More Leads</div>
-          </div>
-
-          <!-- Glassmorphism bottom output card -->
-          <div class="hero-output-card">
-            <div class="output-live-dot"></div>
-            <div class="output-text-wrap">
-              <div class="output-title-txt">Sales Intelligence Dashboard</div>
-              <div class="output-metric-txt">↑ 40% Deal Velocity</div>
-            </div>
-          </div>
-
+          <canvas id="hero-canvas"></canvas>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Stats strip anchored to bottom of hero -->
-  <div class="hero-stats">
-    <div class="stats-row">
-      <div class="stat-item reveal">
-        <div class="stat-num" data-target="3" data-suffix="x">0x</div>
-        <div class="stat-lbl">Faster Sales Cycles</div>
-      </div>
-      <div class="stat-item reveal d2">
-        <div class="stat-num" data-target="60" data-suffix="%">0%</div>
-        <div class="stat-lbl">More Pipeline Visibility</div>
-      </div>
-      <div class="stat-item reveal d4">
-        <div class="stat-num" data-target="50" data-suffix="+">0+</div>
-        <div class="stat-lbl">Tech Teams Trust VIO</div>
-      </div>
-    </div>
-  </div>
 </section>
 
 <!-- ============================================================
@@ -1249,34 +966,154 @@
 
   document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-  /* --- Stats counter (triggers when hero section enters view) --- */
-  const statNums = document.querySelectorAll('.stat-num[data-target]');
-  let countersRun = false;
+  /* ─── Hero Canvas Animation ─── */
+  (function () {
+    const cv = document.getElementById('hero-canvas');
+    if (!cv) return;
+    const c = cv.getContext('2d');
+    let W, H, mx, my, r1 = 0, r2 = 0, lastEmit = 0, lastPulse = -3000;
 
-  const statsObs = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting && !countersRun) {
-      countersRun = true;
-      statNums.forEach(el => {
-        const target   = parseFloat(el.dataset.target);
-        const suffix   = el.dataset.suffix || '';
-        const isInt    = Number.isInteger(target);
-        const duration = 1600;
-        const start    = performance.now();
+    const ORB_DEFS = [
+      { fx: .07, fy: .12, col: '#0066FF', r: 7  },
+      { fx: .16, fy: .33, col: '#00E5BE', r: 9  },
+      { fx: .05, fy: .53, col: '#0066FF', r: 6  },
+      { fx: .12, fy: .73, col: '#00E5BE', r: 8  },
+      { fx: .07, fy: .88, col: '#0066FF', r: 6  },
+      { fx: .30, fy: .07, col: '#00E5BE', r: 10 },
+      { fx: .25, fy: .93, col: '#0066FF', r: 7  },
+      { fx: .36, fy: .50, col: '#00E5BE', r: 5  },
+    ];
 
-        function tick(now) {
-          const progress = Math.min((now - start) / duration, 1);
-          const eased    = 1 - Math.pow(1 - progress, 3);
-          const current  = target * eased;
-          el.textContent = (isInt ? Math.round(current) : current.toFixed(1)) + suffix;
-          if (progress < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
+    let orbs = [], particles = [], pulses = [], ripples = [];
+
+    function resize() {
+      const p = cv.parentElement;
+      W = cv.width  = p.clientWidth;
+      H = cv.height = p.clientHeight;
+      mx = W * 0.50;
+      my = H * 0.50;
+      orbs = ORB_DEFS.map((o, i) => ({ x: o.fx * W, y: o.fy * H, col: o.col, r: o.r, ph: i * 0.85 }));
+    }
+
+    function spawn() {
+      const o = orbs[Math.floor(Math.random() * orbs.length)];
+      particles.push({
+        ox: o.x, oy: o.y,
+        cpx: (o.x + mx) * .5 + (Math.random() - .5) * W * .28,
+        cpy: (o.y + my) * .5 + (Math.random() - .5) * H * .28,
+        t: 0, spd: .005 + Math.random() * .004,
+        r: 1.5 + Math.random(),
       });
     }
-  }, { root: scrollContainer, threshold: 0.3 });
 
-  const heroSection = document.getElementById('hero');
-  if (heroSection) statsObs.observe(heroSection);
+    function frame(now) {
+      requestAnimationFrame(frame);
+
+      /* background */
+      c.fillStyle = '#0D0D1A';
+      c.fillRect(0, 0, W, H);
+
+      /* dot grid */
+      const gs = 36;
+      c.fillStyle = 'rgba(0,80,200,.055)';
+      for (let x = gs * .5; x < W; x += gs)
+        for (let y = gs * .5; y < H; y += gs) {
+          c.beginPath(); c.arc(x, y, 1, 0, 6.28); c.fill();
+        }
+
+      /* orbs */
+      const ts = now * .001;
+      orbs.forEach(o => {
+        const pulse = Math.sin(ts * 1.5 + o.ph), sc = 1 + pulse * .18, al = .75 + pulse * .25;
+        const g = c.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r * 4 * sc);
+        g.addColorStop(0, o.col + '99'); g.addColorStop(1, o.col + '00');
+        c.save();
+        c.globalAlpha = .32; c.fillStyle = g;
+        c.beginPath(); c.arc(o.x, o.y, o.r * 4 * sc, 0, 6.28); c.fill();
+        c.globalAlpha = al; c.shadowBlur = 14; c.shadowColor = o.col; c.fillStyle = o.col;
+        c.beginPath(); c.arc(o.x, o.y, o.r * sc, 0, 6.28); c.fill();
+        c.restore();
+      });
+
+      /* spawn */
+      if (now - lastEmit > 360) { lastEmit = now; if (particles.length < 22) spawn(); }
+
+      /* particles */
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i]; p.t += p.spd;
+        if (p.t >= 1) { ripples.push({ r: 0, max: 24, spd: 1.3 }); particles.splice(i, 1); continue; }
+        const m = 1 - p.t;
+        const x = m*m*p.ox + 2*m*p.t*p.cpx + p.t*p.t*mx;
+        const y = m*m*p.oy + 2*m*p.t*p.cpy + p.t*p.t*my;
+        const al = p.t < .12 ? p.t / .12 : p.t > .82 ? (1 - p.t) / .18 : 1;
+        c.save();
+        c.globalAlpha = al; c.shadowBlur = 7; c.shadowColor = '#aacfff'; c.fillStyle = '#ddeeff';
+        c.beginPath(); c.arc(x, y, p.r, 0, 6.28); c.fill();
+        c.restore();
+      }
+
+      /* output pulses — right-side arc */
+      if (now - lastPulse > 2700) { lastPulse = now; pulses.push({ r: 0, max: Math.hypot(W - mx, H) * .9, spd: 1.8 }); }
+      for (let i = pulses.length - 1; i >= 0; i--) {
+        const p = pulses[i]; p.r += p.spd;
+        if (p.r > p.max) { pulses.splice(i, 1); continue; }
+        c.save();
+        c.globalAlpha = (1 - p.r / p.max) * .5;
+        c.strokeStyle = '#00E5BE'; c.lineWidth = 1.5;
+        c.beginPath(); c.arc(mx, my, p.r + 32, -Math.PI * .62, Math.PI * .62); c.stroke();
+        c.restore();
+      }
+
+      /* arrival ripples */
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        const r = ripples[i]; r.r += r.spd;
+        if (r.r > r.max) { ripples.splice(i, 1); continue; }
+        c.save();
+        c.globalAlpha = (1 - r.r / r.max) * .65;
+        c.strokeStyle = '#fff'; c.lineWidth = 1;
+        c.beginPath(); c.arc(mx, my, 32 + r.r, 0, 6.28); c.stroke();
+        c.restore();
+      }
+
+      /* center AI core */
+      const CR = 32;
+      const bg = c.createRadialGradient(mx, my, 0, mx, my, CR * 5);
+      bg.addColorStop(0, 'rgba(0,102,255,.28)');
+      bg.addColorStop(.55, 'rgba(0,102,255,.07)');
+      bg.addColorStop(1,   'rgba(0,102,255,0)');
+      c.fillStyle = bg; c.beginPath(); c.arc(mx, my, CR * 5, 0, 6.28); c.fill();
+
+      /* ring 1 — dashed, slow clockwise */
+      c.save(); c.translate(mx, my); c.rotate(r1 += .007);
+      c.strokeStyle = 'rgba(0,102,255,.58)'; c.lineWidth = 1.5; c.setLineDash([14, 7]);
+      c.beginPath(); c.arc(0, 0, CR + 16, 0, 6.28); c.stroke();
+      c.restore();
+
+      /* ring 2 — thin, faster counter-clockwise */
+      c.save(); c.translate(mx, my); c.rotate(r2 -= .015);
+      c.strokeStyle = 'rgba(0,229,190,.4)'; c.lineWidth = 1; c.setLineDash([6, 10]);
+      c.beginPath(); c.arc(0, 0, CR + 28, 0, 6.28); c.stroke();
+      c.restore();
+      c.setLineDash([]);
+
+      /* inner static ring */
+      c.strokeStyle = 'rgba(0,102,255,.14)'; c.lineWidth = 1;
+      c.beginPath(); c.arc(mx, my, CR + 9, 0, 6.28); c.stroke();
+
+      /* solid core */
+      const cg = c.createRadialGradient(mx - 9, my - 9, 2, mx, my, CR);
+      cg.addColorStop(0, '#77aaff'); cg.addColorStop(.45, '#0066FF'); cg.addColorStop(1, '#0044cc');
+      c.save();
+      c.shadowBlur = 40; c.shadowColor = '#0055ff'; c.fillStyle = cg;
+      c.beginPath(); c.arc(mx, my, CR, 0, 6.28); c.fill();
+      c.restore();
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+    requestAnimationFrame(frame);
+  })();
+
 </script>
 </body>
 </html>

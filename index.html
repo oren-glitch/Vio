@@ -194,7 +194,19 @@
     .hero-ctas {
       display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 10px;
     }
-    .hero-reassure { font-size: 12.5px; color: rgba(255,255,255,.3); margin-bottom: 44px; }
+    .hero-reassure { font-size: 12.5px; color: rgba(255,255,255,.3); margin-bottom: 28px; }
+
+    .hero-stats {
+      display: flex; gap: 32px; flex-wrap: wrap;
+    }
+    .stat-item { display: flex; flex-direction: column; gap: 2px; }
+    .stat-num {
+      font-size: 22px; font-weight: 800; color: #fff; line-height: 1;
+    }
+    .stat-lbl {
+      font-size: 11.5px; font-weight: 500; color: rgba(255,255,255,.4);
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
 
 
     /* --- Hero SVG visual --- */
@@ -598,13 +610,19 @@
   <div class="hero-wrap">
     <!-- Left: content -->
     <div class="hero-content">
-      <span class="section-label">AI-Powered Data Platform</span>
-      <h1>Your Data Is the Key to More Customers. <em>VIO</em> Unlocks It.</h1>
-      <p class="hero-sub">VIO uses AI to transform raw data into actionable sales intelligence — helping tech companies grow faster and smarter.</p>
+      <span class="section-label">AI-Powered Data Intelligence</span>
+      <h1>We Find the Data That <em>Grows Your Business</em></h1>
+      <p class="hero-sub">VIO scours the internet to collect the data that matters most to your business — then uses AI to turn it into revenue-driving intelligence.</p>
       <div class="hero-ctas">
         <button class="btn btn-blue open-modal">Request a Demo</button>
+        <button class="btn-ghost open-modal">See It In Action →</button>
       </div>
       <p class="hero-reassure">No credit card required</p>
+      <div class="hero-stats">
+        <div class="stat-item"><span class="stat-num">10x</span><span class="stat-lbl">More Data Sources</span></div>
+        <div class="stat-item"><span class="stat-num">3x</span><span class="stat-lbl">Faster Revenue Growth</span></div>
+        <div class="stat-item"><span class="stat-num">50+</span><span class="stat-lbl">Businesses Scaled</span></div>
+      </div>
     </div>
 
     <!-- Right: AI canvas animation -->
@@ -625,9 +643,9 @@
 <section id="platform" class="snap-section">
   <div class="platform-wrap">
     <div class="platform-text reveal">
-      <span class="section-label">Platform</span>
-      <h2>From Raw Data to Revenue — Automatically</h2>
-      <p class="platform-body">Most companies collect data but never use it to its full potential. VIO's AI engine connects, processes, and enriches your data — so your team gets actionable insights instead of endless spreadsheets.</p>
+      <span class="section-label">What We Do</span>
+      <h2>The Internet Is Full of Opportunities. We Find Them For You.</h2>
+      <p class="platform-body">Every day, billions of data points are published across the web — competitor moves, market shifts, buyer signals. VIO automatically collects, filters, and analyzes this data so your team always knows where the next opportunity is.</p>
       <ul class="check-list">
         <li>
           <span class="check-icon">
@@ -635,7 +653,7 @@
               <polyline points="1,5.5 3.5,8 9,2"/>
             </svg>
           </span>
-          Unified data pipeline — no engineering required
+          Continuous data collection from thousands of sources worldwide
         </li>
         <li>
           <span class="check-icon">
@@ -643,7 +661,7 @@
               <polyline points="1,5.5 3.5,8 9,2"/>
             </svg>
           </span>
-          AI analysis in minutes, not days
+          AI that filters noise and surfaces what matters to your business
         </li>
         <li>
           <span class="check-icon">
@@ -651,7 +669,7 @@
               <polyline points="1,5.5 3.5,8 9,2"/>
             </svg>
           </span>
-          Insights that directly drive sales and retention
+          Actionable insights delivered directly to your team
         </li>
       </ul>
     </div>
@@ -718,7 +736,7 @@
   <div class="why-wrap">
     <div class="section-head reveal">
       <span class="section-label">Why VIO</span>
-      <h2>Your Data Is Sitting There.<br>Your Competitors Are Using Theirs.</h2>
+      <h2>Your Competitors Are Using Data<br>You Don't Even Know Exists</h2>
     </div>
     <div class="comp-table reveal d2">
       <div class="comp-head-row">
@@ -726,20 +744,20 @@
         <div class="comp-head pos">✅&nbsp; With VIO</div>
       </div>
       <div class="comp-row">
-        <div class="comp-cell neg">Data scattered across tools</div>
-        <div class="comp-cell pos">Unified, clean data pipeline</div>
+        <div class="comp-cell neg">Guessing what competitors are doing</div>
+        <div class="comp-cell pos">Real-time competitor intelligence</div>
       </div>
       <div class="comp-row">
-        <div class="comp-cell neg">Manual analysis takes days</div>
-        <div class="comp-cell pos">AI insights in minutes</div>
+        <div class="comp-cell neg">Missing market signals and buyer intent</div>
+        <div class="comp-cell pos">AI-detected opportunities before they peak</div>
       </div>
       <div class="comp-row">
-        <div class="comp-cell neg">Missed sales opportunities</div>
-        <div class="comp-cell pos">Proactive, data-driven growth</div>
+        <div class="comp-cell neg">Sales team working with outdated data</div>
+        <div class="comp-cell pos">Fresh, relevant data delivered continuously</div>
       </div>
       <div class="comp-row">
-        <div class="comp-cell neg">No visibility into customer behavior</div>
-        <div class="comp-cell pos">Full 360° customer intelligence</div>
+        <div class="comp-cell neg">Revenue left on the table</div>
+        <div class="comp-cell pos">Consistent, data-driven business growth</div>
       </div>
     </div>
   </div>
@@ -752,14 +770,13 @@
 ============================================================ -->
 <section id="pricing" class="snap-section">
   <div class="cta-wrap reveal">
-    <h2>Ready to Make Your Data Work for You?</h2>
-    <p>Join the tech companies using VIO to turn data into their biggest competitive advantage.</p>
+    <h2>The Data That Grows Your Business Is Out There. Let's Get It.</h2>
+    <p>VIO collects, analyzes, and delivers the internet's most relevant data — so you can focus on closing deals and growing revenue.</p>
     <div class="cta-btns">
       <button class="btn btn-white open-modal">Request a Demo</button>
       <button class="btn-ghost open-modal">Talk to Sales</button>
     </div>
-    <div class="cta-reassure">No credit card required · Setup in under 30 minutes</div>
-    <div class="cta-pricing-note">Contact us for a custom plan tailored to your team.</div>
+    <div class="cta-reassure">No credit card required · Up and running in 48 hours</div>
   </div>
 </section>
 
@@ -771,7 +788,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <img src="Brand/logo.png" alt="VIO" />
-        <p class="footer-tagline">VIO turns your data into sales intelligence.</p>
+        <p class="footer-tagline">VIO finds the data that grows your business.</p>
       </div>
       <div class="footer-col">
         <h4>Company</h4>

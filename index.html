@@ -30,14 +30,12 @@
       --radius-btn:  8px;
     }
 
-    html { height: 100%; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--font);
       color: var(--primary);
       background: var(--white);
-      overflow: hidden;
-      height: 100%;
       line-height: 1.6;
     }
 
@@ -419,39 +417,6 @@
     .modal-success h3 { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
     .modal-success p { font-size: 14.5px; color: var(--body-grey); }
 
-    /* ============================================================
-       SCROLL SNAP CONTAINER
-    ============================================================ */
-    #scroll-container {
-      height: 100vh;
-      overflow-y: scroll;
-      scroll-snap-type: y mandatory;
-      scroll-behavior: smooth;
-      scroll-padding-top: 68px;
-    }
-
-    .snap-section {
-      min-height: 100vh;
-      scroll-snap-align: start;
-      overflow-y: auto;
-    }
-
-    /* hero keeps its own overflow:hidden for the SVG glow clips */
-    #hero.snap-section { overflow-x: hidden; overflow-y: auto; }
-
-    /* Center content vertically in sections that don't fill naturally */
-    #platform.snap-section,
-    #why-vio.snap-section,
-    #pricing.snap-section {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    #footer.snap-section {
-      min-height: auto;           /* footer doesn't need full-viewport height */
-      scroll-snap-align: start;
-    }
 
     /* ============================================================
        DOT NAVIGATION
@@ -599,9 +564,6 @@
   <button class="snap-dot"        data-target="pricing"  data-label="Pricing"></button>
   <button class="snap-dot"        data-target="footer"   data-label="Footer"></button>
 </nav>
-
-<!-- Scroll snap container -->
-<div id="scroll-container">
 
 <!-- ============================================================
      HERO
@@ -810,8 +772,6 @@
   </div>
 </footer>
 
-</div><!-- /#scroll-container -->
-
 <!-- ============================================================
      DEMO MODAL
 ============================================================ -->
@@ -857,12 +817,10 @@
      JAVASCRIPT
 ============================================================ -->
 <script>
-  const scrollContainer = document.getElementById('scroll-container');
-
-  /* --- Navbar scroll (listens to scroll container, not window) --- */
+  /* --- Navbar scroll --- */
   const nav = document.getElementById('nav');
-  const onScroll = () => nav.classList.toggle('scrolled', scrollContainer.scrollTop > 48);
-  scrollContainer.addEventListener('scroll', onScroll, { passive: true });
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 48);
+  window.addEventListener('scroll', onScroll, { passive: true });
 
   /* --- Smooth-scroll all anchor links through the scroll container --- */
   document.querySelectorAll('.nav-links a, #mobile-nav a, .nav-logo').forEach(link => {
@@ -871,7 +829,7 @@
       link.addEventListener('click', e => {
         e.preventDefault();
         const target = document.getElementById(href.slice(1));
-        if (target) scrollContainer.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+        if (target) window.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
       });
     }
   });
@@ -909,12 +867,12 @@
 
   function openModal() {
     overlay.classList.add('open');
-    scrollContainer.style.overflowY = 'hidden'; /* freeze scroll while modal open */
+    document.body.style.overflow = 'hidden'; /* freeze scroll while modal open */
     setTimeout(() => document.getElementById('f-name').focus(), 260);
   }
   function closeModal() {
     overlay.classList.remove('open');
-    scrollContainer.style.overflowY = '';
+    document.body.style.overflow = '';
   }
 
   document.querySelectorAll('.open-modal').forEach(b => b.addEventListener('click', openModal));
@@ -960,7 +918,7 @@
   snapDots.forEach(dot => {
     dot.addEventListener('click', () => {
       const target = document.getElementById(dot.dataset.target);
-      if (target) scrollContainer.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+      if (target) window.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
     });
   });
 
@@ -972,14 +930,14 @@
         snapDots.forEach(d => d.classList.toggle('active', d.dataset.target === id));
       }
     });
-  }, { root: scrollContainer, threshold: 0.5 });
+  }, { root: null, threshold: 0.5 });
 
   snapSections.forEach(s => dotObserver.observe(s));
 
   /* --- Scroll-reveal (IntersectionObserver) --- */
   const revealObs = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { root: scrollContainer, threshold: 0.1 });
+  }, { root: null, threshold: 0.1 });
 
   document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 

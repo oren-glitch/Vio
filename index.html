@@ -296,24 +296,35 @@
       color: var(--primary); line-height: 1.2;
     }
 
-    .comp-table {
-      border-radius: var(--radius-card); overflow: hidden;
-      border: 1px solid var(--border); background: var(--white);
+    .section-head p {
+      font-size: 16px; color: var(--body-grey); margin-top: 14px; line-height: 1.6;
     }
-    .comp-head-row { display: grid; grid-template-columns: 1fr 1fr; }
-    .comp-head {
-      padding: 18px 30px; font-size: 14px; font-weight: 700;
+
+    .results-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 36px;
     }
-    .comp-head.neg { background: #FFF5F5; color: #C53030; border-bottom: 1px solid #FED7D7; }
-    .comp-head.pos { background: #F0FFF4; color: #22543D; border-bottom: 1px solid #C6F6D5; border-left: 1px solid var(--border); }
-    .comp-row { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border); }
-    .comp-row:last-child { border-bottom: none; }
-    .comp-cell {
-      padding: 16px 30px; font-size: 14.5px; display: flex; align-items: center; gap: 10px;
-      color: var(--body-grey);
+    .result-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 12px; padding: 36px 32px;
+      transition: transform .2s, box-shadow .2s;
     }
-    .comp-cell.neg { border-right: 1px solid var(--border); }
-    .comp-cell.pos { color: var(--primary); font-weight: 500; }
+    .result-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,102,255,.1);
+    }
+    .result-num {
+      font-size: clamp(48px, 6vw, 72px); font-weight: 900;
+      color: var(--accent); line-height: 1; margin-bottom: 10px;
+    }
+    .result-title {
+      font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 8px;
+    }
+    .result-ctx {
+      font-size: 14.5px; color: var(--body-grey); line-height: 1.6;
+    }
+    .results-disclaimer {
+      text-align: center; font-size: 12.5px; color: var(--muted); font-style: italic;
+    }
 
     /* ============================================================
        BOTTOM CTA (doubles as #pricing anchor)
@@ -505,6 +516,7 @@
       .hero-visual { display: none; }  /* hide on mobile — clean hero */
 
       .platform-wrap { grid-template-columns: 1fr; gap: 48px; }
+      .results-grid { grid-template-columns: 1fr; }
 
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
 
@@ -697,31 +709,33 @@
 <section id="why-vio" class="snap-section">
   <div class="why-wrap">
     <div class="section-head reveal">
-      <span class="section-label">Why VIO</span>
-      <h2>Your Competitors Are Using Data<br>You Don't Even Know Exists</h2>
+      <span class="section-label">The Results</span>
+      <h2>What Happens When Your Team Has the Right Data</h2>
+      <p>VIO clients see measurable growth within weeks — not quarters.</p>
     </div>
-    <div class="comp-table reveal d2">
-      <div class="comp-head-row">
-        <div class="comp-head neg">❌&nbsp; Without VIO</div>
-        <div class="comp-head pos">✅&nbsp; With VIO</div>
+    <div class="results-grid reveal d2">
+      <div class="result-card">
+        <div class="result-num">+40%</div>
+        <div class="result-title">More Closed Deals</div>
+        <div class="result-ctx">Sales teams close more when they know exactly who to target and when</div>
       </div>
-      <div class="comp-row">
-        <div class="comp-cell neg">Guessing what competitors are doing</div>
-        <div class="comp-cell pos">Real-time competitor intelligence</div>
+      <div class="result-card">
+        <div class="result-num">3x</div>
+        <div class="result-title">Faster Pipeline Growth</div>
+        <div class="result-ctx">Fresh market data means your team always has new, qualified opportunities</div>
       </div>
-      <div class="comp-row">
-        <div class="comp-cell neg">Missing market signals and buyer intent</div>
-        <div class="comp-cell pos">AI-detected opportunities before they peak</div>
+      <div class="result-card">
+        <div class="result-num">60%</div>
+        <div class="result-title">Less Time on Research</div>
+        <div class="result-ctx">VIO delivers the intelligence — your team focuses on selling</div>
       </div>
-      <div class="comp-row">
-        <div class="comp-cell neg">Sales team working with outdated data</div>
-        <div class="comp-cell pos">Fresh, relevant data delivered continuously</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-cell neg">Revenue left on the table</div>
-        <div class="comp-cell pos">Consistent, data-driven business growth</div>
+      <div class="result-card">
+        <div class="result-num">2x</div>
+        <div class="result-title">Higher Revenue Per Client</div>
+        <div class="result-ctx">Knowing what your customers need before they do drives upsell and retention</div>
       </div>
     </div>
+    <p class="results-disclaimer">Results based on average client performance within 90 days of using VIO.</p>
   </div>
 </section>
 

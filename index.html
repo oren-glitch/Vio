@@ -250,40 +250,139 @@
     }
     .check-icon svg { width: 10px; height: 10px; color: var(--accent); }
 
-    /* fake dashboard card */
-    .dash-card {
-      background: #0D0D1A; border-radius: 16px; padding: 24px;
+    /* Pipeline visualization */
+    .pipeline-vis {
+      background: #0D1117; border-radius: 16px; padding: 28px 18px;
+      position: relative; overflow: hidden;
       border: 1px solid rgba(255,255,255,.06);
-      box-shadow: 0 32px 80px rgba(0,0,0,.14), 0 0 0 1px rgba(0,102,255,.06);
+      box-shadow: 0 32px 80px rgba(0,0,0,.22), 0 0 0 1px rgba(0,102,255,.04);
     }
-    .dash-titlebar {
-      display: flex; align-items: center; gap: 7px; margin-bottom: 20px;
+    .pipeline-vis::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(0,102,255,.06) 1px, transparent 1px);
+      background-size: 22px 22px; pointer-events: none;
     }
-    .dot { width: 10px; height: 10px; border-radius: 50%; }
-    .dot-r { background: #FF5F5F; } .dot-y { background: #FFBD2E; } .dot-g { background: #27C93F; }
-    .dash-title-txt {
-      font-size: 11px; color: rgba(255,255,255,.28); margin-left: 6px; font-weight: 500;
+    .pipe-cols {
+      display: grid;
+      grid-template-columns: 1fr 38px 76px 38px 1fr;
+      align-items: center;
+      position: relative; z-index: 1;
     }
-    .chart-block {
-      background: rgba(255,255,255,.025); border-radius: 10px;
-      padding: 18px 18px 12px; margin-bottom: 14px;
+    .pipe-col-title {
+      font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: rgba(255,255,255,.28);
+      margin-bottom: 10px; text-align: center;
     }
-    .chart-block-lbl { font-size: 11px; color: var(--muted); margin-bottom: 14px; }
-    .chart-svg { width: 100%; height: 72px; }
+    .pipe-cards { display: flex; flex-direction: column; gap: 7px; }
+    .pipe-card {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.045); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 8px; padding: 8px 10px;
+      opacity: 0; animation: pipeCardIn .4s ease forwards;
+    }
+    .pipe-card:nth-child(1) { animation-delay: .05s; }
+    .pipe-card:nth-child(2) { animation-delay: .18s; }
+    .pipe-card:nth-child(3) { animation-delay: .31s; }
+    .pipe-card:nth-child(4) { animation-delay: .44s; }
+    @keyframes pipeCardIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .pipe-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #00E5BE; flex-shrink: 0;
+      animation: pdotPulse 2s ease-in-out infinite;
+    }
+    .pipe-card:nth-child(2) .pipe-dot { animation-delay: .5s; }
+    .pipe-card:nth-child(3) .pipe-dot { animation-delay: 1s; }
+    .pipe-card:nth-child(4) .pipe-dot { animation-delay: 1.5s; }
+    @keyframes pdotPulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,229,190,.5); }
+      50%       { opacity: .4; box-shadow: 0 0 0 5px rgba(0,229,190,0); }
+    }
+    .pipe-icon  { font-size: 12px; }
+    .pipe-label { font-size: 11px; color: rgba(255,255,255,.68); font-weight: 500; }
 
-    /* animated chart line */
-    @keyframes drawLine { from { stroke-dashoffset: 600; } to { stroke-dashoffset: 0; } }
-    .cline { stroke-dasharray: 600; stroke-dashoffset: 600; animation: drawLine 2.4s ease-out .3s forwards; }
-    .cline2 { stroke-dasharray: 600; stroke-dashoffset: 600; animation: drawLine 2.4s ease-out .8s forwards; }
-
-    .metric-trio { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-    .m-card {
-      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06);
-      border-radius: 8px; padding: 12px 14px;
+    /* Arrows */
+    .pipe-arrow { display: flex; align-items: center; justify-content: center; height: 100%; }
+    .arrow-line {
+      position: relative; width: 100%; height: 2px; border-radius: 1px;
     }
-    .m-val { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 3px; }
-    .m-lbl { font-size: 10px; color: var(--muted); }
-    .m-trend { font-size: 10px; color: var(--highlight); font-weight: 600; }
+    .al-blue { background: rgba(0,102,255,.35); }
+    .al-teal { background: rgba(0,229,190,.35); }
+    .al-blue::after, .al-teal::after {
+      content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%);
+      border-top: 5px solid transparent; border-bottom: 5px solid transparent;
+    }
+    .al-blue::after { border-left: 7px solid #0066FF; }
+    .al-teal::after { border-left: 7px solid #00E5BE; }
+    .tdot {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 5px; height: 5px; border-radius: 50%;
+      animation: tdotMove 1.7s linear infinite;
+    }
+    .tdot.blue { background: #0066FF; box-shadow: 0 0 5px #0066FF; }
+    .tdot.teal { background: #00E5BE; box-shadow: 0 0 5px #00E5BE; animation-duration: 1.1s; }
+    .tdot.d2 { animation-delay: .57s; }
+    .tdot.d3 { animation-delay: 1.14s; }
+    @keyframes tdotMove {
+      0%   { left: 0%;   opacity: 0; }
+      8%   { opacity: 1; }
+      88%  { opacity: 1; }
+      100% { left: 100%; opacity: 0; }
+    }
+
+    /* AI orb */
+    .pipe-col-ai { display: flex; align-items: center; justify-content: center; }
+    .ai-orb {
+      position: relative; width: 72px; height: 72px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ai-ring {
+      position: absolute; border-radius: 50%; border: 2px solid transparent;
+    }
+    .ai-ring-1 {
+      inset: 0;
+      border-top-color: #0066FF; border-right-color: rgba(0,102,255,.2);
+      animation: aiSpin 2.2s linear infinite;
+    }
+    .ai-ring-2 {
+      inset: 7px;
+      border-bottom-color: #00E5BE; border-left-color: rgba(0,229,190,.2);
+      animation: aiSpin 1.5s linear infinite reverse;
+    }
+    @keyframes aiSpin { to { transform: rotate(360deg); } }
+    .ai-core {
+      width: 50px; height: 50px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #5599ff, #0044cc);
+      box-shadow: 0 0 28px rgba(0,102,255,.6), 0 0 8px rgba(0,102,255,.3);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+    }
+    .ai-name { font-size: 12px; font-weight: 900; color: #fff; line-height: 1; letter-spacing: .5px; }
+    .ai-sub  { font-size: 7px; font-weight: 700; color: #00E5BE; text-transform: uppercase; letter-spacing: .5px; }
+
+    /* Output cards */
+    .out-cards { display: flex; flex-direction: column; gap: 7px; }
+    .out-card {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,.045); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 8px; padding: 9px 12px;
+      opacity: 0; animation: outCardIn .4s ease forwards;
+    }
+    .out-card:nth-child(1) { animation-delay: .2s; }
+    .out-card:nth-child(2) { animation-delay: .38s; }
+    .out-card:nth-child(3) { animation-delay: .56s; }
+    @keyframes outCardIn {
+      from { opacity: 0; transform: translateX(12px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .out-badge {
+      font-size: 10.5px; font-weight: 800; padding: 2px 7px;
+      border-radius: 5px; white-space: nowrap; flex-shrink: 0;
+    }
+    .badge-green { background: rgba(39,201,63,.15); color: #27C93F; border: 1px solid rgba(39,201,63,.2); }
+    .badge-blue  { background: rgba(0,102,255,.15); color: #5599ff; border: 1px solid rgba(0,102,255,.2); }
+    .badge-gold  { background: rgba(255,189,46,.15); color: #FFBD2E; border: 1px solid rgba(255,189,46,.2); }
+    .out-label   { font-size: 11px; color: rgba(255,255,255,.65); font-weight: 500; }
 
     /* ============================================================
        PROBLEM → SOLUTION
@@ -517,6 +616,8 @@
 
       .platform-wrap { grid-template-columns: 1fr; gap: 48px; }
       .results-grid { grid-template-columns: 1fr; }
+      .pipe-cols { grid-template-columns: 1fr; }
+      .pipe-arrow { height: 34px; width: 54px; margin: 2px auto; transform: rotate(90deg); }
 
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
 
@@ -648,56 +749,61 @@
       </ul>
     </div>
 
-    <!-- fake dashboard visual -->
-    <div class="dash-card reveal d2">
-      <div class="dash-titlebar">
-        <div class="dot dot-r"></div>
-        <div class="dot dot-y"></div>
-        <div class="dot dot-g"></div>
-        <span class="dash-title-txt">VIO Dashboard · Revenue Intelligence</span>
-      </div>
-      <div class="chart-block">
-        <div class="chart-block-lbl">Pipeline Growth · Last 30 days</div>
-        <svg class="chart-svg" viewBox="0 0 400 72" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="aGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%"   stop-color="#0066FF" stop-opacity=".4"/>
-              <stop offset="100%" stop-color="#0066FF" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <!-- grid -->
-          <line x1="0" y1="18" x2="400" y2="18" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
-          <line x1="0" y1="36" x2="400" y2="36" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
-          <line x1="0" y1="54" x2="400" y2="54" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
-          <!-- area -->
-          <path d="M0,64 C40,58 70,50 110,40 C150,30 170,36 210,24 C250,12 270,16 310,8 C350,0 370,2 400,1 L400,72 L0,72 Z"
-                fill="url(#aGrad)" opacity=".5"/>
-          <!-- primary line -->
-          <path class="cline"
-                d="M0,64 C40,58 70,50 110,40 C150,30 170,36 210,24 C250,12 270,16 310,8 C350,0 370,2 400,1"
-                stroke="#0066FF" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <!-- secondary line -->
-          <path class="cline2"
-                d="M0,68 C50,64 80,60 120,54 C160,48 180,50 220,44 C260,38 280,40 320,36 C360,32 380,30 400,26"
-                stroke="#00E5BE" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-dasharray="600" stroke-dashoffset="600"/>
-        </svg>
-      </div>
-      <div class="metric-trio">
-        <div class="m-card">
-          <div class="m-val">$2.4M</div>
-          <div class="m-lbl">Pipeline</div>
-          <div class="m-trend">↑ 34%</div>
+    <!-- Pipeline animation visual -->
+    <div class="pipeline-vis reveal d2">
+      <div class="pipe-cols">
+
+        <!-- Column 1: Data Sources -->
+        <div class="pipe-col">
+          <div class="pipe-col-title">From The Web</div>
+          <div class="pipe-cards">
+            <div class="pipe-card"><span class="pipe-dot"></span><span class="pipe-icon">🌐</span><span class="pipe-label">Competitor Sites</span></div>
+            <div class="pipe-card"><span class="pipe-dot"></span><span class="pipe-icon">📊</span><span class="pipe-label">Market Signals</span></div>
+            <div class="pipe-card"><span class="pipe-dot"></span><span class="pipe-icon">💬</span><span class="pipe-label">Buyer Intent</span></div>
+            <div class="pipe-card"><span class="pipe-dot"></span><span class="pipe-icon">📰</span><span class="pipe-label">Industry News</span></div>
+          </div>
         </div>
-        <div class="m-card">
-          <div class="m-val">89%</div>
-          <div class="m-lbl">Accuracy</div>
-          <div class="m-trend">↑ 12%</div>
+
+        <!-- Arrow 1 (blue) -->
+        <div class="pipe-arrow">
+          <div class="arrow-line al-blue">
+            <div class="tdot blue"></div>
+            <div class="tdot blue d2"></div>
+            <div class="tdot blue d3"></div>
+          </div>
         </div>
-        <div class="m-card">
-          <div class="m-val">127</div>
-          <div class="m-lbl">Insights</div>
-          <div class="m-trend" style="color:#00E5BE">● Live</div>
+
+        <!-- Column 2: VIO AI Engine -->
+        <div class="pipe-col-ai">
+          <div class="ai-orb">
+            <div class="ai-ring ai-ring-1"></div>
+            <div class="ai-ring ai-ring-2"></div>
+            <div class="ai-core">
+              <span class="ai-name">VIO</span>
+              <span class="ai-sub">AI Engine</span>
+            </div>
+          </div>
         </div>
+
+        <!-- Arrow 2 (teal) -->
+        <div class="pipe-arrow">
+          <div class="arrow-line al-teal">
+            <div class="tdot teal"></div>
+            <div class="tdot teal d2"></div>
+            <div class="tdot teal d3"></div>
+          </div>
+        </div>
+
+        <!-- Column 3: Revenue Output -->
+        <div class="pipe-col">
+          <div class="pipe-col-title">For Your Business</div>
+          <div class="out-cards">
+            <div class="out-card"><span class="out-badge badge-green">↑ 40%</span><span class="out-label">More Closed Deals</span></div>
+            <div class="out-card"><span class="out-badge badge-blue">3x</span><span class="out-label">Pipeline Growth</span></div>
+            <div class="out-card"><span class="out-badge badge-gold">$$$</span><span class="out-label">Revenue Growth</span></div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

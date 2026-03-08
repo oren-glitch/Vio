@@ -385,6 +385,47 @@
     .out-label   { font-size: 11px; color: rgba(255,255,255,.65); font-weight: 500; }
 
     /* ============================================================
+       DATA QUALITY
+    ============================================================ */
+    #data-quality { background: var(--white); padding: var(--section-y) 24px; border-top: 1px solid var(--border); }
+    .dq-wrap { max-width: var(--max-w); margin: 0 auto; }
+    .dq-head { text-align: center; margin-bottom: 56px; }
+    .dq-head h2 { font-size: clamp(24px, 3vw, 40px); font-weight: 800; color: var(--primary); line-height: 1.2; margin-bottom: 14px; }
+    .dq-head p { font-size: 16px; color: var(--body-grey); max-width: 580px; margin: 0 auto; }
+
+    .dq-steps {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; margin-bottom: 36px;
+      border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+    }
+    .dq-step {
+      padding: 40px 32px; text-align: center; position: relative;
+    }
+    .dq-step:not(:last-child) { border-right: 1px solid var(--border); }
+    .dq-step.dq-highlight {
+      background: var(--accent); color: #fff;
+    }
+    .dq-step-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+    .dq-step-num {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px; display: block;
+    }
+    .dq-highlight .dq-step-num { color: rgba(255,255,255,.65); }
+    .dq-step-title {
+      font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 10px;
+    }
+    .dq-highlight .dq-step-title { color: #fff; }
+    .dq-step-desc { font-size: 14px; color: var(--body-grey); line-height: 1.6; }
+    .dq-highlight .dq-step-desc { color: rgba(255,255,255,.8); }
+
+    .dq-trust {
+      background: var(--primary); border-radius: 12px; padding: 32px 36px;
+      border-left: 4px solid var(--highlight); display: flex; align-items: center; gap: 20px;
+    }
+    .dq-trust-icon { font-size: 28px; flex-shrink: 0; }
+    .dq-trust-text { font-size: 16px; color: rgba(255,255,255,.9); line-height: 1.6; }
+    .dq-trust-text strong { color: #fff; font-weight: 700; }
+
+    /* ============================================================
        PROBLEM → SOLUTION
     ============================================================ */
     #why-vio { background: var(--light-bg); padding: var(--section-y) 24px; }
@@ -616,6 +657,8 @@
 
       .platform-wrap { grid-template-columns: 1fr; gap: 48px; }
       .results-grid { grid-template-columns: 1fr; }
+      .dq-steps { grid-template-columns: 1fr; border-radius: 12px; }
+      .dq-step:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); }
       .pipe-cols { grid-template-columns: 1fr; }
       .pipe-arrow { height: 34px; width: 54px; margin: 2px auto; transform: rotate(90deg); }
 
@@ -672,8 +715,9 @@
 <!-- Dot navigation -->
 <nav id="dot-nav" aria-label="Page sections">
   <button class="snap-dot active" data-target="hero"     data-label="Home"></button>
-  <button class="snap-dot"        data-target="platform" data-label="Platform"></button>
-  <button class="snap-dot"        data-target="why-vio"  data-label="Why VIO"></button>
+  <button class="snap-dot"        data-target="platform"     data-label="Platform"></button>
+  <button class="snap-dot"        data-target="data-quality" data-label="Data Quality"></button>
+  <button class="snap-dot"        data-target="why-vio"      data-label="Why VIO"></button>
   <button class="snap-dot"        data-target="pricing"  data-label="Pricing"></button>
   <button class="snap-dot"        data-target="footer"   data-label="Footer"></button>
 </nav>
@@ -687,7 +731,7 @@
     <div class="hero-content">
       <span class="section-label">AI-Powered Data Intelligence</span>
       <h1>We Find the Data That <em>Grows Your Business</em></h1>
-      <p class="hero-sub">VIO scours the internet to collect the data that matters most to your business — then uses AI to turn it into revenue-driving intelligence.</p>
+      <p class="hero-sub">VIO continuously collects property data and ownership records from across the US — then enriches, verifies, and refines it using AI to deliver only the highest quality intelligence that grows your revenue.</p>
       <div class="hero-ctas">
         <button class="btn btn-blue open-modal">Request a Demo</button>
         <button class="btn-ghost open-modal">See It In Action →</button>
@@ -720,7 +764,7 @@
     <div class="platform-text reveal">
       <span class="section-label">What We Do</span>
       <h2>The Internet Is Full of Opportunities. We Find Them For You.</h2>
-      <p class="platform-body">Every day, billions of data points are published across the web — competitor moves, market shifts, buyer signals. VIO automatically collects, filters, and analyzes this data so your team always knows where the next opportunity is.</p>
+      <p class="platform-body">Every day, property ownership data changes hands — new purchases, transfers, ownership updates. VIO automatically collects this data from thousands of public and private sources, then enriches and verifies each record so your team always has accurate, actionable intelligence.</p>
       <ul class="check-list">
         <li>
           <span class="check-icon">
@@ -728,7 +772,7 @@
               <polyline points="1,5.5 3.5,8 9,2"/>
             </svg>
           </span>
-          Continuous data collection from thousands of sources worldwide
+          Continuous collection of property and ownership records across the US
         </li>
         <li>
           <span class="check-icon">
@@ -736,7 +780,7 @@
               <polyline points="1,5.5 3.5,8 9,2"/>
             </svg>
           </span>
-          AI that filters noise and surfaces what matters to your business
+          AI enrichment that fills gaps, resolves conflicts, and verifies accuracy
         </li>
         <li>
           <span class="check-icon">
@@ -744,7 +788,7 @@
               <polyline points="1,5.5 3.5,8 9,2"/>
             </svg>
           </span>
-          Actionable insights delivered directly to your team
+          Only verified, high-quality data — no junk, no noise, no guesswork
         </li>
       </ul>
     </div>
@@ -805,6 +849,45 @@
         </div>
 
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DATA QUALITY
+============================================================ -->
+<section id="data-quality" class="snap-section">
+  <div class="dq-wrap">
+    <div class="dq-head reveal">
+      <span class="section-label">Data Quality</span>
+      <h2>We Don't Just Collect Data. We Make It Better.</h2>
+      <p>Raw web data is messy — full of duplicates, gaps, and errors. VIO cleans, enriches, and verifies every record before it reaches your team.</p>
+    </div>
+
+    <div class="dq-steps reveal d2">
+      <div class="dq-step">
+        <span class="dq-step-icon">🌐</span>
+        <span class="dq-step-num">Step 1</span>
+        <div class="dq-step-title">Collect</div>
+        <div class="dq-step-desc">We pull property data and ownership records from thousands of public and private sources across the US — continuously updated.</div>
+      </div>
+      <div class="dq-step dq-highlight">
+        <span class="dq-step-icon">⚙️</span>
+        <span class="dq-step-num">Step 2</span>
+        <div class="dq-step-title">Enrich &amp; Verify</div>
+        <div class="dq-step-desc">AI cross-references each record, fills missing fields, resolves conflicts, and flags anything that can't be verified — so nothing slips through.</div>
+      </div>
+      <div class="dq-step">
+        <span class="dq-step-icon">✅</span>
+        <span class="dq-step-num">Step 3</span>
+        <div class="dq-step-title">Deliver</div>
+        <div class="dq-step-desc">Only verified, high-confidence records reach your team. No junk. No noise. Just data you can actually act on.</div>
+      </div>
+    </div>
+
+    <div class="dq-trust reveal d3">
+      <div class="dq-trust-icon">🔒</div>
+      <div class="dq-trust-text"><strong>The result: data you can actually trust to make business decisions.</strong> While competitors guess with dirty data, your team moves with precision.</div>
     </div>
   </div>
 </section>

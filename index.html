@@ -251,138 +251,13 @@
     .check-icon svg { width: 10px; height: 10px; color: var(--accent); }
 
     /* Pipeline visualization */
-    .pipeline-vis {
-      background: #0D1117; border-radius: 16px; padding: 28px 18px;
-      position: relative; overflow: hidden;
+    .scraper-vis {
+      background: #0D1117; border-radius: 16px; overflow: hidden;
       border: 1px solid rgba(255,255,255,.06);
-      box-shadow: 0 32px 80px rgba(0,0,0,.22), 0 0 0 1px rgba(0,102,255,.04);
+      box-shadow: 0 32px 80px rgba(0,0,0,.28), 0 0 0 1px rgba(0,102,255,.05);
+      aspect-ratio: 16 / 9; position: relative;
     }
-    .pipeline-vis::before {
-      content: ''; position: absolute; inset: 0;
-      background-image: radial-gradient(rgba(0,102,255,.06) 1px, transparent 1px);
-      background-size: 22px 22px; pointer-events: none;
-    }
-    .pipe-cols {
-      display: grid;
-      grid-template-columns: 1fr 38px 76px 38px 1fr;
-      align-items: center;
-      position: relative; z-index: 1;
-    }
-    .pipe-col-title {
-      font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px;
-      text-transform: uppercase; color: rgba(255,255,255,.28);
-      margin-bottom: 10px; text-align: center;
-    }
-    .pipe-cards { display: flex; flex-direction: column; gap: 7px; }
-    .pipe-card {
-      display: flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,.045); border: 1px solid rgba(255,255,255,.08);
-      border-radius: 8px; padding: 8px 10px;
-      opacity: 0; animation: pipeCardIn .4s ease forwards;
-    }
-    .pipe-card:nth-child(1) { animation-delay: .05s; }
-    .pipe-card:nth-child(2) { animation-delay: .18s; }
-    .pipe-card:nth-child(3) { animation-delay: .31s; }
-    .pipe-card:nth-child(4) { animation-delay: .44s; }
-    @keyframes pipeCardIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .pipe-dot {
-      width: 6px; height: 6px; border-radius: 50%; background: #00E5BE; flex-shrink: 0;
-      animation: pdotPulse 2s ease-in-out infinite;
-    }
-    .pipe-card:nth-child(2) .pipe-dot { animation-delay: .5s; }
-    .pipe-card:nth-child(3) .pipe-dot { animation-delay: 1s; }
-    .pipe-card:nth-child(4) .pipe-dot { animation-delay: 1.5s; }
-    @keyframes pdotPulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,229,190,.5); }
-      50%       { opacity: .4; box-shadow: 0 0 0 5px rgba(0,229,190,0); }
-    }
-    .pipe-icon  { font-size: 12px; }
-    .pipe-label { font-size: 11px; color: rgba(255,255,255,.68); font-weight: 500; }
-
-    /* Arrows */
-    .pipe-arrow { display: flex; align-items: center; justify-content: center; height: 100%; }
-    .arrow-line {
-      position: relative; width: 100%; height: 2px; border-radius: 1px;
-    }
-    .al-blue { background: rgba(0,102,255,.35); }
-    .al-teal { background: rgba(0,229,190,.35); }
-    .al-blue::after, .al-teal::after {
-      content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%);
-      border-top: 5px solid transparent; border-bottom: 5px solid transparent;
-    }
-    .al-blue::after { border-left: 7px solid #0066FF; }
-    .al-teal::after { border-left: 7px solid #00E5BE; }
-    .tdot {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      width: 5px; height: 5px; border-radius: 50%;
-      animation: tdotMove 1.7s linear infinite;
-    }
-    .tdot.blue { background: #0066FF; box-shadow: 0 0 5px #0066FF; }
-    .tdot.teal { background: #00E5BE; box-shadow: 0 0 5px #00E5BE; animation-duration: 1.1s; }
-    .tdot.d2 { animation-delay: .57s; }
-    .tdot.d3 { animation-delay: 1.14s; }
-    @keyframes tdotMove {
-      0%   { left: 0%;   opacity: 0; }
-      8%   { opacity: 1; }
-      88%  { opacity: 1; }
-      100% { left: 100%; opacity: 0; }
-    }
-
-    /* AI orb */
-    .pipe-col-ai { display: flex; align-items: center; justify-content: center; }
-    .ai-orb {
-      position: relative; width: 72px; height: 72px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .ai-ring {
-      position: absolute; border-radius: 50%; border: 2px solid transparent;
-    }
-    .ai-ring-1 {
-      inset: 0;
-      border-top-color: #0066FF; border-right-color: rgba(0,102,255,.2);
-      animation: aiSpin 2.2s linear infinite;
-    }
-    .ai-ring-2 {
-      inset: 7px;
-      border-bottom-color: #00E5BE; border-left-color: rgba(0,229,190,.2);
-      animation: aiSpin 1.5s linear infinite reverse;
-    }
-    @keyframes aiSpin { to { transform: rotate(360deg); } }
-    .ai-core {
-      width: 50px; height: 50px; border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #5599ff, #0044cc);
-      box-shadow: 0 0 28px rgba(0,102,255,.6), 0 0 8px rgba(0,102,255,.3);
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
-    }
-    .ai-name { font-size: 12px; font-weight: 900; color: #fff; line-height: 1; letter-spacing: .5px; }
-    .ai-sub  { font-size: 7px; font-weight: 700; color: #00E5BE; text-transform: uppercase; letter-spacing: .5px; }
-
-    /* Output cards */
-    .out-cards { display: flex; flex-direction: column; gap: 7px; }
-    .out-card {
-      display: flex; align-items: center; gap: 10px;
-      background: rgba(255,255,255,.045); border: 1px solid rgba(255,255,255,.08);
-      border-radius: 8px; padding: 9px 12px;
-      opacity: 0; animation: outCardIn .4s ease forwards;
-    }
-    .out-card:nth-child(1) { animation-delay: .2s; }
-    .out-card:nth-child(2) { animation-delay: .38s; }
-    .out-card:nth-child(3) { animation-delay: .56s; }
-    @keyframes outCardIn {
-      from { opacity: 0; transform: translateX(12px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-    .out-badge {
-      font-size: 10.5px; font-weight: 800; padding: 2px 7px;
-      border-radius: 5px; white-space: nowrap; flex-shrink: 0;
-    }
-    .badge-green { background: rgba(39,201,63,.15); color: #27C93F; border: 1px solid rgba(39,201,63,.2); }
-    .badge-blue  { background: rgba(0,102,255,.15); color: #5599ff; border: 1px solid rgba(0,102,255,.2); }
-    .badge-gold  { background: rgba(255,189,46,.15); color: #FFBD2E; border: 1px solid rgba(255,189,46,.2); }
-    .out-label   { font-size: 11px; color: rgba(255,255,255,.65); font-weight: 500; }
+    #scraper-canvas { display: block; width: 100%; height: 100%; }
 
     /* ============================================================
        DATA QUALITY
@@ -640,8 +515,7 @@
       .results-grid { grid-template-columns: 1fr; }
       .dq-steps { grid-template-columns: 1fr; border-radius: 12px; }
       .dq-step:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); }
-      .pipe-cols { grid-template-columns: 1fr; }
-      .pipe-arrow { height: 34px; width: 54px; margin: 2px auto; transform: rotate(90deg); }
+
 
       .sticky-cta { display: block; }
       #dot-nav { display: none; }
@@ -771,62 +645,9 @@
       </ul>
     </div>
 
-    <!-- Pipeline animation visual -->
-    <div class="pipeline-vis reveal d2">
-      <div class="pipe-cols">
-
-        <!-- Column 1: Data Sources -->
-        <div class="pipe-col">
-          <div class="pipe-col-title">From The Web</div>
-          <div class="pipe-cards">
-            <div class="pipe-card"><span class="pipe-dot"></span><span class="pipe-icon">🌐</span><span class="pipe-label">Competitor Sites</span></div>
-            <div class="pipe-card"><span class="pipe-dot"></span><span class="pipe-icon">📊</span><span class="pipe-label">Market Signals</span></div>
-            <div class="pipe-card"><span class="pipe-dot"></span><span class="pipe-icon">💬</span><span class="pipe-label">Buyer Intent</span></div>
-            <div class="pipe-card"><span class="pipe-dot"></span><span class="pipe-icon">📰</span><span class="pipe-label">Industry News</span></div>
-          </div>
-        </div>
-
-        <!-- Arrow 1 (blue) -->
-        <div class="pipe-arrow">
-          <div class="arrow-line al-blue">
-            <div class="tdot blue"></div>
-            <div class="tdot blue d2"></div>
-            <div class="tdot blue d3"></div>
-          </div>
-        </div>
-
-        <!-- Column 2: VIO AI Engine -->
-        <div class="pipe-col-ai">
-          <div class="ai-orb">
-            <div class="ai-ring ai-ring-1"></div>
-            <div class="ai-ring ai-ring-2"></div>
-            <div class="ai-core">
-              <span class="ai-name">VIO</span>
-              <span class="ai-sub">AI Engine</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Arrow 2 (teal) -->
-        <div class="pipe-arrow">
-          <div class="arrow-line al-teal">
-            <div class="tdot teal"></div>
-            <div class="tdot teal d2"></div>
-            <div class="tdot teal d3"></div>
-          </div>
-        </div>
-
-        <!-- Column 3: Revenue Output -->
-        <div class="pipe-col">
-          <div class="pipe-col-title">For Your Business</div>
-          <div class="out-cards">
-            <div class="out-card"><span class="out-badge badge-green">↑ 40%</span><span class="out-label">More Closed Deals</span></div>
-            <div class="out-card"><span class="out-badge badge-blue">3x</span><span class="out-label">Pipeline Growth</span></div>
-            <div class="out-card"><span class="out-badge badge-gold">$$$</span><span class="out-label">Revenue Growth</span></div>
-          </div>
-        </div>
-
-      </div>
+    <!-- Scraper canvas animation -->
+    <div class="scraper-vis reveal d2">
+      <canvas id="scraper-canvas"></canvas>
     </div>
   </div>
 </section>
@@ -1244,6 +1065,257 @@
 
     resize();
     window.addEventListener('resize', resize);
+    requestAnimationFrame(frame);
+  })();
+
+  /* ============================================================
+     SCRAPER CANVAS — database sources flowing into AI core
+  ============================================================ */
+  (function () {
+    const canvas = document.getElementById('scraper-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W, H, CX, CY;
+
+    // Cylinder definitions: fractional position, scale, color, phase offset
+    const CYL_DEFS = [
+      { fx: 0.11, fy: 0.17, sc: 1.00, col: '#0066FF', ph: 0.0  },
+      { fx: 0.19, fy: 0.40, sc: 0.72, col: '#00E5BE', ph: 1.4  },
+      { fx: 0.09, fy: 0.63, sc: 0.88, col: '#0066FF', ph: 2.6  },
+      { fx: 0.21, fy: 0.82, sc: 0.60, col: '#00E5BE', ph: 0.9  },
+      { fx: 0.07, fy: 0.50, sc: 0.55, col: '#4488FF', ph: 1.9  },
+      { fx: 0.17, fy: 0.28, sc: 0.68, col: '#00CCAA', ph: 3.2  },
+    ];
+    let cyls = [];
+
+    function buildCyls() {
+      cyls = CYL_DEFS.map(d => {
+        const rw = 18 + d.sc * 18; // half-width of ellipse
+        const rh = 5  + d.sc * 5;  // half-height of ellipse cap
+        const bh = 22 + d.sc * 20; // body height
+        return {
+          x: d.fx * W, y: d.fy * H,
+          rw, rh, bh, col: d.col, ph: d.ph,
+        };
+      });
+    }
+
+    function drawCyl(c, t) {
+      const pulse = 0.55 + 0.45 * Math.sin(t * 0.65 + c.ph);
+      const top = c.y - c.bh / 2;
+      const bot = c.y + c.bh / 2;
+
+      ctx.save();
+      ctx.shadowBlur  = 14 * pulse;
+      ctx.shadowColor = c.col;
+
+      // Body fill
+      ctx.beginPath();
+      ctx.moveTo(c.x - c.rw, top);
+      ctx.lineTo(c.x - c.rw, bot);
+      ctx.ellipse(c.x, bot, c.rw, c.rh, 0, Math.PI, 0);
+      ctx.lineTo(c.x + c.rw, top);
+      ctx.ellipse(c.x, top, c.rw, c.rh, 0, 0, Math.PI, true);
+      ctx.fillStyle = 'rgba(10,16,30,0.96)';
+      ctx.fill();
+      ctx.globalAlpha = 0.30 + 0.50 * pulse;
+      ctx.strokeStyle = c.col;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Top cap
+      ctx.beginPath();
+      ctx.ellipse(c.x, top, c.rw, c.rh, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(16,26,50,0.97)';
+      ctx.globalAlpha = 1;
+      ctx.fill();
+      ctx.globalAlpha = 0.45 + 0.55 * pulse;
+      ctx.stroke();
+
+      // Subtle horizontal lines inside body (disk layers)
+      ctx.globalAlpha = 0.12 * pulse;
+      for (let li = 1; li < 3; li++) {
+        const ly = top + (c.bh / 3) * li;
+        ctx.beginPath();
+        ctx.ellipse(c.x, ly, c.rw * 0.92, c.rh * 0.7, 0, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      ctx.restore();
+    }
+
+    // Particles
+    const parts = [];
+    const MAX_PARTS = 90;
+    let lastSpawn = 0;
+
+    function spawnParticle() {
+      if (parts.length >= MAX_PARTS || !cyls.length) return;
+      const c = cyls[Math.floor(Math.random() * cyls.length)];
+      const sx = c.x + c.rw * 0.55 + Math.random() * c.rw * 0.3;
+      const sy = c.y + (Math.random() - 0.5) * c.bh * 0.55;
+      const ex = CX + (Math.random() - 0.5) * 10;
+      const ey = CY + (Math.random() - 0.5) * 10;
+      // Bezier control: arc upward or downward toward center
+      const cpx = sx + (ex - sx) * (0.35 + Math.random() * 0.25);
+      const cpy = sy + (ey - sy) * 0.25 + (Math.random() - 0.5) * H * 0.22;
+      parts.push({
+        sx, sy, cpx, cpy, ex, ey,
+        t: 0,
+        dt: 0.0022 + Math.random() * 0.0038,
+        sz: 1.8 + Math.random() * 1.2,
+        blue: Math.random() > 0.45,
+      });
+    }
+
+    function bz(p0, p1, p2, t) {
+      const m = 1 - t;
+      return m * m * p0 + 2 * m * t * p1 + t * t * p2;
+    }
+
+    // Ripples (triggered when particle reaches core)
+    const ripples = [];
+    function addRipple() {
+      ripples.push({ r: 18, alpha: 0.6 });
+    }
+
+    function drawCore(t) {
+      // Outer ambient glow
+      const glo = ctx.createRadialGradient(CX, CY, 0, CX, CY, 60);
+      glo.addColorStop(0, 'rgba(0,102,255,0.20)');
+      glo.addColorStop(1, 'rgba(0,102,255,0)');
+      ctx.beginPath();
+      ctx.arc(CX, CY, 60, 0, Math.PI * 2);
+      ctx.fillStyle = glo;
+      ctx.fill();
+
+      // Ring 1 — clockwise, blue
+      ctx.save();
+      ctx.translate(CX, CY);
+      ctx.rotate(t * 0.55);
+      ctx.beginPath();
+      ctx.arc(0, 0, 40, 0, Math.PI * 1.65);
+      ctx.strokeStyle = '#0066FF';
+      ctx.lineWidth = 2;
+      ctx.shadowBlur = 10; ctx.shadowColor = '#0066FF';
+      ctx.globalAlpha = 0.9;
+      ctx.stroke();
+      ctx.restore();
+
+      // Ring 2 — counter-clockwise, teal
+      ctx.save();
+      ctx.translate(CX, CY);
+      ctx.rotate(-t * 0.85);
+      ctx.beginPath();
+      ctx.arc(0, 0, 29, 0, Math.PI * 1.35);
+      ctx.strokeStyle = '#00E5BE';
+      ctx.lineWidth = 1.5;
+      ctx.shadowBlur = 8; ctx.shadowColor = '#00E5BE';
+      ctx.globalAlpha = 0.8;
+      ctx.stroke();
+      ctx.restore();
+
+      // Core orb
+      ctx.save();
+      const cg = ctx.createRadialGradient(CX - 5, CY - 5, 0, CX, CY, 20);
+      cg.addColorStop(0, '#88BBFF');
+      cg.addColorStop(0.45, '#0066FF');
+      cg.addColorStop(1, '#0033AA');
+      ctx.beginPath();
+      ctx.arc(CX, CY, 20, 0, Math.PI * 2);
+      ctx.shadowBlur = 32; ctx.shadowColor = '#0066FF';
+      ctx.fillStyle = cg;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    let time = 0;
+
+    function frame(ts) {
+      requestAnimationFrame(frame);
+      time = ts * 0.001;
+
+      // Responsive resize
+      const pr = canvas.parentElement;
+      const pw = pr.clientWidth, ph = pr.clientHeight;
+      if (pw !== W || ph !== H) {
+        W = canvas.width  = pw;
+        H = canvas.height = ph;
+        CX = W * 0.58;
+        CY = H * 0.5;
+        buildCyls();
+      }
+
+      ctx.clearRect(0, 0, W, H);
+
+      // Background
+      ctx.fillStyle = '#0D1117';
+      ctx.fillRect(0, 0, W, H);
+
+      // Subtle dot grid
+      ctx.save();
+      ctx.fillStyle = 'rgba(0,102,255,0.055)';
+      for (let gx = 0; gx < W; gx += 26) {
+        for (let gy = 0; gy < H; gy += 26) {
+          ctx.beginPath();
+          ctx.arc(gx, gy, 1, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      ctx.restore();
+
+      // Cylinders
+      cyls.forEach(c => drawCyl(c, time));
+
+      // Spawn
+      if (ts - lastSpawn > 110 && parts.length < MAX_PARTS) {
+        spawnParticle();
+        lastSpawn = ts;
+      }
+
+      // Particles
+      for (let i = parts.length - 1; i >= 0; i--) {
+        const p = parts[i];
+        p.t += p.dt;
+        if (p.t >= 1) {
+          parts.splice(i, 1);
+          addRipple();
+          continue;
+        }
+        const px = bz(p.sx, p.cpx, p.ex, p.t);
+        const py = bz(p.sy, p.cpy, p.ey, p.t);
+        let a = p.t < 0.1 ? p.t / 0.1 : p.t > 0.82 ? (1 - p.t) / 0.18 : 1;
+        a *= 0.82;
+        const col = p.blue ? '#88AAFF' : '#DDEEFF';
+        ctx.save();
+        ctx.globalAlpha = a;
+        ctx.fillStyle = col;
+        ctx.shadowBlur = 4; ctx.shadowColor = col;
+        ctx.fillRect(px - p.sz / 2, py - p.sz / 2, p.sz, p.sz);
+        ctx.restore();
+      }
+
+      // Ripples
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        const rp = ripples[i];
+        rp.r  += 1.8;
+        rp.alpha -= 0.028;
+        if (rp.alpha <= 0) { ripples.splice(i, 1); continue; }
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(CX, CY, rp.r, 0, Math.PI * 2);
+        ctx.strokeStyle = '#0066FF';
+        ctx.lineWidth = 1.5;
+        ctx.globalAlpha = rp.alpha;
+        ctx.shadowBlur = 6; ctx.shadowColor = '#0066FF';
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // AI core (on top)
+      drawCore(time);
+    }
+
     requestAnimationFrame(frame);
   })();
 

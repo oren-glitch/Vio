@@ -1069,7 +1069,7 @@
   })();
 
   /* ============================================================
-     SCRAPER CANVAS — database sources flowing into AI core
+     SCRAPER CANVAS — minimal orbs flowing into subtle AI core
   ============================================================ */
   (function () {
     const canvas = document.getElementById('scraper-canvas');
@@ -1077,94 +1077,68 @@
     const ctx = canvas.getContext('2d');
     let W, H, CX, CY;
 
-    // Cylinder definitions: fractional position, scale, color, phase offset
-    const CYL_DEFS = [
-      { fx: 0.11, fy: 0.17, sc: 1.00, col: '#0066FF', ph: 0.0  },
-      { fx: 0.19, fy: 0.40, sc: 0.72, col: '#00E5BE', ph: 1.4  },
-      { fx: 0.09, fy: 0.63, sc: 0.88, col: '#0066FF', ph: 2.6  },
-      { fx: 0.21, fy: 0.82, sc: 0.60, col: '#00E5BE', ph: 0.9  },
-      { fx: 0.07, fy: 0.50, sc: 0.55, col: '#4488FF', ph: 1.9  },
-      { fx: 0.17, fy: 0.28, sc: 0.68, col: '#00CCAA', ph: 3.2  },
+    // Orb definitions: fractional position, radius, color, phase
+    const ORB_DEFS = [
+      { fx: 0.10, fy: 0.16, r: 7,  col: '#0066FF', ph: 0.0 },
+      { fx: 0.20, fy: 0.36, r: 6,  col: '#00E5BE', ph: 1.5 },
+      { fx: 0.08, fy: 0.58, r: 8,  col: '#0066FF', ph: 2.8 },
+      { fx: 0.22, fy: 0.76, r: 5,  col: '#00E5BE', ph: 0.9 },
+      { fx: 0.13, fy: 0.50, r: 6,  col: '#0055DD', ph: 2.1 },
+      { fx: 0.18, fy: 0.25, r: 7,  col: '#00BBAA', ph: 3.4 },
     ];
-    let cyls = [];
+    let orbs = [];
 
-    function buildCyls() {
-      cyls = CYL_DEFS.map(d => {
-        const rw = 18 + d.sc * 18; // half-width of ellipse
-        const rh = 5  + d.sc * 5;  // half-height of ellipse cap
-        const bh = 22 + d.sc * 20; // body height
-        return {
-          x: d.fx * W, y: d.fy * H,
-          rw, rh, bh, col: d.col, ph: d.ph,
-        };
-      });
+    function buildOrbs() {
+      orbs = ORB_DEFS.map(d => ({
+        x: d.fx * W, y: d.fy * H,
+        r: d.r, col: d.col, ph: d.ph,
+      }));
     }
 
-    function drawCyl(c, t) {
-      const pulse = 0.55 + 0.45 * Math.sin(t * 0.65 + c.ph);
-      const top = c.y - c.bh / 2;
-      const bot = c.y + c.bh / 2;
+    function drawOrb(o, t) {
+      // Very gentle pulse — barely noticeable
+      const pulse = 0.85 + 0.15 * Math.sin(t * 0.5 + o.ph);
 
       ctx.save();
-      ctx.shadowBlur  = 14 * pulse;
-      ctx.shadowColor = c.col;
-
-      // Body fill
+      // Soft outer glow
+      const grd = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r * 3.5);
+      grd.addColorStop(0, o.col + '28'); // ~16% opacity
+      grd.addColorStop(1, o.col + '00');
       ctx.beginPath();
-      ctx.moveTo(c.x - c.rw, top);
-      ctx.lineTo(c.x - c.rw, bot);
-      ctx.ellipse(c.x, bot, c.rw, c.rh, 0, Math.PI, 0);
-      ctx.lineTo(c.x + c.rw, top);
-      ctx.ellipse(c.x, top, c.rw, c.rh, 0, 0, Math.PI, true);
-      ctx.fillStyle = 'rgba(10,16,30,0.96)';
+      ctx.arc(o.x, o.y, o.r * 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = grd;
+      ctx.globalAlpha = pulse;
       ctx.fill();
-      ctx.globalAlpha = 0.30 + 0.50 * pulse;
-      ctx.strokeStyle = c.col;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
 
-      // Top cap
+      // Core circle
       ctx.beginPath();
-      ctx.ellipse(c.x, top, c.rw, c.rh, 0, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(16,26,50,0.97)';
-      ctx.globalAlpha = 1;
+      ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
+      ctx.fillStyle = o.col + '66'; // 40% opacity
+      ctx.globalAlpha = pulse;
       ctx.fill();
-      ctx.globalAlpha = 0.45 + 0.55 * pulse;
-      ctx.stroke();
-
-      // Subtle horizontal lines inside body (disk layers)
-      ctx.globalAlpha = 0.12 * pulse;
-      for (let li = 1; li < 3; li++) {
-        const ly = top + (c.bh / 3) * li;
-        ctx.beginPath();
-        ctx.ellipse(c.x, ly, c.rw * 0.92, c.rh * 0.7, 0, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-
       ctx.restore();
     }
 
-    // Particles
+    // Particles — sparse, slow, tiny
     const parts = [];
-    const MAX_PARTS = 90;
+    const MAX_PARTS = 36; // 60% reduction from 90
     let lastSpawn = 0;
 
     function spawnParticle() {
-      if (parts.length >= MAX_PARTS || !cyls.length) return;
-      const c = cyls[Math.floor(Math.random() * cyls.length)];
-      const sx = c.x + c.rw * 0.55 + Math.random() * c.rw * 0.3;
-      const sy = c.y + (Math.random() - 0.5) * c.bh * 0.55;
-      const ex = CX + (Math.random() - 0.5) * 10;
-      const ey = CY + (Math.random() - 0.5) * 10;
-      // Bezier control: arc upward or downward toward center
-      const cpx = sx + (ex - sx) * (0.35 + Math.random() * 0.25);
-      const cpy = sy + (ey - sy) * 0.25 + (Math.random() - 0.5) * H * 0.22;
+      if (parts.length >= MAX_PARTS || !orbs.length) return;
+      const o = orbs[Math.floor(Math.random() * orbs.length)];
+      const sx = o.x + o.r * 0.8;
+      const sy = o.y + (Math.random() - 0.5) * o.r * 1.2;
+      const ex = CX + (Math.random() - 0.5) * 8;
+      const ey = CY + (Math.random() - 0.5) * 8;
+      const cpx = sx + (ex - sx) * (0.3 + Math.random() * 0.3);
+      const cpy = sy + (ey - sy) * 0.2 + (Math.random() - 0.5) * H * 0.18;
       parts.push({
         sx, sy, cpx, cpy, ex, ey,
         t: 0,
-        dt: 0.0022 + Math.random() * 0.0038,
-        sz: 1.8 + Math.random() * 1.2,
-        blue: Math.random() > 0.45,
+        dt: 0.0015 + Math.random() * 0.0025, // slower
+        sz: 1.0 + Math.random() * 0.8,        // 1–1.8px
+        blue: Math.random() > 0.5,
       });
     }
 
@@ -1173,57 +1147,58 @@
       return m * m * p0 + 2 * m * t * p1 + t * t * p2;
     }
 
-    // Ripples (triggered when particle reaches core)
+    // Very subtle ripples
     const ripples = [];
     function addRipple() {
-      ripples.push({ r: 18, alpha: 0.6 });
+      // Only add every 3rd arrival — keeps it calm
+      if (Math.random() > 0.33) return;
+      ripples.push({ r: 12, alpha: 0.2 });
     }
 
     function drawCore(t) {
-      // Outer ambient glow
-      const glo = ctx.createRadialGradient(CX, CY, 0, CX, CY, 60);
-      glo.addColorStop(0, 'rgba(0,102,255,0.20)');
+      // Faint ambient glow
+      const glo = ctx.createRadialGradient(CX, CY, 0, CX, CY, 44);
+      glo.addColorStop(0, 'rgba(0,102,255,0.10)');
       glo.addColorStop(1, 'rgba(0,102,255,0)');
       ctx.beginPath();
-      ctx.arc(CX, CY, 60, 0, Math.PI * 2);
+      ctx.arc(CX, CY, 44, 0, Math.PI * 2);
       ctx.fillStyle = glo;
       ctx.fill();
 
-      // Ring 1 — clockwise, blue
+      // Ring 1 — clockwise, very thin, low opacity
       ctx.save();
       ctx.translate(CX, CY);
-      ctx.rotate(t * 0.55);
+      ctx.rotate(t * 0.4);
       ctx.beginPath();
-      ctx.arc(0, 0, 40, 0, Math.PI * 1.65);
+      ctx.arc(0, 0, 30, 0, Math.PI * 1.7);
       ctx.strokeStyle = '#0066FF';
-      ctx.lineWidth = 2;
-      ctx.shadowBlur = 10; ctx.shadowColor = '#0066FF';
-      ctx.globalAlpha = 0.9;
+      ctx.lineWidth = 0.8;
+      ctx.globalAlpha = 0.18;
       ctx.stroke();
       ctx.restore();
 
-      // Ring 2 — counter-clockwise, teal
+      // Ring 2 — counter-clockwise, very thin, low opacity
       ctx.save();
       ctx.translate(CX, CY);
-      ctx.rotate(-t * 0.85);
+      ctx.rotate(-t * 0.65);
       ctx.beginPath();
-      ctx.arc(0, 0, 29, 0, Math.PI * 1.35);
+      ctx.arc(0, 0, 22, 0, Math.PI * 1.4);
       ctx.strokeStyle = '#00E5BE';
-      ctx.lineWidth = 1.5;
-      ctx.shadowBlur = 8; ctx.shadowColor = '#00E5BE';
-      ctx.globalAlpha = 0.8;
+      ctx.lineWidth = 0.8;
+      ctx.globalAlpha = 0.15;
       ctx.stroke();
       ctx.restore();
 
-      // Core orb
+      // Core orb — small, soft
       ctx.save();
-      const cg = ctx.createRadialGradient(CX - 5, CY - 5, 0, CX, CY, 20);
-      cg.addColorStop(0, '#88BBFF');
-      cg.addColorStop(0.45, '#0066FF');
-      cg.addColorStop(1, '#0033AA');
+      const cg = ctx.createRadialGradient(CX - 3, CY - 3, 0, CX, CY, 13);
+      cg.addColorStop(0, 'rgba(100,160,255,0.55)');
+      cg.addColorStop(0.5, 'rgba(0,102,255,0.40)');
+      cg.addColorStop(1,   'rgba(0,40,150,0.30)');
       ctx.beginPath();
-      ctx.arc(CX, CY, 20, 0, Math.PI * 2);
-      ctx.shadowBlur = 32; ctx.shadowColor = '#0066FF';
+      ctx.arc(CX, CY, 13, 0, Math.PI * 2);
+      ctx.shadowBlur = 14;
+      ctx.shadowColor = 'rgba(0,102,255,0.35)';
       ctx.fillStyle = cg;
       ctx.fill();
       ctx.restore();
@@ -1235,7 +1210,6 @@
       requestAnimationFrame(frame);
       time = ts * 0.001;
 
-      // Responsive resize
       const pr = canvas.parentElement;
       const pw = pr.clientWidth, ph = pr.clientHeight;
       if (pw !== W || ph !== H) {
@@ -1243,32 +1217,30 @@
         H = canvas.height = ph;
         CX = W * 0.58;
         CY = H * 0.5;
-        buildCyls();
+        buildOrbs();
       }
 
       ctx.clearRect(0, 0, W, H);
-
-      // Background
       ctx.fillStyle = '#0D1117';
       ctx.fillRect(0, 0, W, H);
 
-      // Subtle dot grid
+      // Very faint dot grid
       ctx.save();
-      ctx.fillStyle = 'rgba(0,102,255,0.055)';
-      for (let gx = 0; gx < W; gx += 26) {
-        for (let gy = 0; gy < H; gy += 26) {
+      ctx.fillStyle = 'rgba(0,102,255,0.028)';
+      for (let gx = 0; gx < W; gx += 28) {
+        for (let gy = 0; gy < H; gy += 28) {
           ctx.beginPath();
-          ctx.arc(gx, gy, 1, 0, Math.PI * 2);
+          ctx.arc(gx, gy, 0.8, 0, Math.PI * 2);
           ctx.fill();
         }
       }
       ctx.restore();
 
-      // Cylinders
-      cyls.forEach(c => drawCyl(c, time));
+      // Orbs
+      orbs.forEach(o => drawOrb(o, time));
 
-      // Spawn
-      if (ts - lastSpawn > 110 && parts.length < MAX_PARTS) {
+      // Spawn — slower interval, sparse
+      if (ts - lastSpawn > 280 && parts.length < MAX_PARTS) {
         spawnParticle();
         lastSpawn = ts;
       }
@@ -1284,35 +1256,32 @@
         }
         const px = bz(p.sx, p.cpx, p.ex, p.t);
         const py = bz(p.sy, p.cpy, p.ey, p.t);
-        let a = p.t < 0.1 ? p.t / 0.1 : p.t > 0.82 ? (1 - p.t) / 0.18 : 1;
-        a *= 0.82;
-        const col = p.blue ? '#88AAFF' : '#DDEEFF';
+        let a = p.t < 0.12 ? p.t / 0.12 : p.t > 0.78 ? (1 - p.t) / 0.22 : 1;
+        a *= 0.45; // overall lower opacity
+        const col = p.blue ? 'rgba(100,160,255,' : 'rgba(180,210,255,';
         ctx.save();
         ctx.globalAlpha = a;
-        ctx.fillStyle = col;
-        ctx.shadowBlur = 4; ctx.shadowColor = col;
+        ctx.fillStyle = col + '1)';
         ctx.fillRect(px - p.sz / 2, py - p.sz / 2, p.sz, p.sz);
         ctx.restore();
       }
 
-      // Ripples
+      // Ripples — very faint
       for (let i = ripples.length - 1; i >= 0; i--) {
         const rp = ripples[i];
-        rp.r  += 1.8;
-        rp.alpha -= 0.028;
+        rp.r     += 1.2;
+        rp.alpha -= 0.012;
         if (rp.alpha <= 0) { ripples.splice(i, 1); continue; }
         ctx.save();
         ctx.beginPath();
         ctx.arc(CX, CY, rp.r, 0, Math.PI * 2);
         ctx.strokeStyle = '#0066FF';
-        ctx.lineWidth = 1.5;
+        ctx.lineWidth = 0.8;
         ctx.globalAlpha = rp.alpha;
-        ctx.shadowBlur = 6; ctx.shadowColor = '#0066FF';
         ctx.stroke();
         ctx.restore();
       }
 
-      // AI core (on top)
       drawCore(time);
     }
 
